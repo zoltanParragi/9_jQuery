@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
+        integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <title>9_1 jQuery</title>
+    <style>
+        .test {
+            width: 100px;
+            height: 100px;
+            background: red;
+        }
+    </style>
+</head>
+<body>
+    <h1></h1>
+    <h2>selectors</h2>
+    <p>"element", "#id", ".class", "*"(all), this (actual element), "ul li:first", "[href]" (elements with href attribute), "a[target='_blank']", ":button" (all element that has type="button"), "tr:even" (tr elements that's ordinal number is even)</p>
+    
+    <h2>events</h2>
+    <p>mouse events: .click(), .dbclick(), .mouseenter(), .mouseleave()</p>
+    <p>keyboard events: .submit() Form küldés, .change() Beviteli mező tartalma megváltozott, .focus() A beviteli mezőbe bekerült a kurzor, .blur() A beviteli mezőből kikerült a kurzor</p>
+    <p>document events: .load() A DOM teljesen betöltődött, .resize() Az ablak átméretezésre került, .scroll() Az ablak scrollozva lett, .unload() Az adott dokumentumot elhagytuk/bezártuk</p>
+    <p>.on() egy vagy több eseménykezelő megadása egy elemhez</p>
+    <p>ok</p>
+    <button id="test1">Toggle red square</button>
+    <br>
+    <div class="test"></div>
+    <br>
+    <input type="text" id="test2">
+    <div id="test2div"></div>
+    <div id="test3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit repellat facere eos fugit asperiores, recusandae quos reiciendis deleniti accusamus, ea vitae dolore nisi, unde cum mollitia iste expedita hic excepturi.</div>
+    <button>change</button>
+    <div id="test4" style="width: 200px; height: 100px; overflow: scroll;">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolor voluptates odit omnis quia iusto obcaecati velit labore ducimus, quo perspiciatis et corporis nam voluptatem, blanditiis sint saepe veritatis rerum nulla?</div>
+
+    <h2>effects</h2>
+    <p>hide, show, toggle</p>
+    <button id="test5">try it</button>
+    <br><br>
+    <div style="width: 100px; height: 100px; background: red;"></div>
+    <button id="test6">fadeToggle</button>
+    <button id="test7">fadeTo</button>
+    <br><br>
+    <div id="slide" style="width: 100px; height: 100px; background: red; color: white;">slide up</div>
+    <br><br>
+    <div style="position: relative;">
+        <div id="animate" style="position: absolute; width: 100px; height: 100px; background: red; color: white;">animate</div>
+    </div>
+    <button id="animateBtn">stop</button>
+    <p>animate queue ...</p>
+
+    <h5>callback</h5>
+    <p>egymásutániság biztosítása ... (egyébként egy sor végrehajtása nem várja meg az előző sorban levő effetktus befejezését.) Pl.: </p>
+    <pre>
+        hide és alert egymás után hajtódik végre:
+        $("p").hide("slow", function(){
+            alert("The paragraph is now hidden");
+        });
+
+        alert előbb végbe megy, mint a hide befejeződik:
+        $("button").click(function(){
+            $("p").hide(1000);
+            alert("The paragraph is now hidden");
+        });
+    </pre>
+    
+    <h5>Method Chaining ...</h5>
+
+    <h2>DOM manipulation</h2>
+    <p><b>Read and write</b> with: text(), html() val() és attr() ... pl:</p>
+    <pre>
+        $("a").attr("href", "https://www.w3schools.com/jquery/");
+    </pre>
+
+    <p><b>insert and delete</b>, in an HTML element: append(), prepend(), outside an HTML element:  after(), before() </p>
+    <pre>
+        eg.:
+        var txt1 = "<p>Text.</p>";         
+        var txt2 = $("<p></p>").text("Text.");  
+        var txt3 = document.createElement("p");
+        txt3.innerHTML = "Text.";        
+        $("body").append(txt1, txt2, txt3); 
+    </pre>
+    <p><b>Elemek eltávolítása</b>: remove() és empty() ... A jQuery remove() metódus egy paramétert is elfogad, ami lehetővé teszi az eltávolítandó elemek szűrését típus, class érték, vagy bármely érvényes CSS szelektor alapján. pl.: $("p").remove(".test");</p>
+
+    <p><b>class</b>-ok: addClass(), removeClass(), toggleClass(), css() - beállít vagy visszaad egy vagy több css tulajdonságot a kiválasztott elemekkel kapcsolatban</p>
+    <pre>
+        pl.: css tulajdonság kiolvasása:
+        $("p").css("background-color")
+    </pre> 
+    <p><b>dimenziók</b> width(), height(), innerWidth() - szélesség + padding, innerHeight() - magasság + padding, outerWidth() - szélesség + padding + border, outerHeight() - magasság + padding + border, outerWidth(true) - szélesség + padding + border + margin, outerHeight(true) - magasság + padding + border + margin</p>
+    <pre>
+        Return the width:
+        $(selector).width()
+
+        Set the width:
+        $(selector).width(value)
+
+        Set the width using a function:
+        $(selector).width(function(index,currentwidth))
+    </pre>
+
+    <h2>elemek elérése</h2>
+    <p><b>szülő elemek:</b> parent() - a kiválasztott elem közvetlen szülőelemét adja vissza, parents() - visszaadja a kiválasztott elem összes őselemét, egészen a dokumentum root elemig, parentsUntil(elem) - visszaadja az összes szülő/őselemet a kiindulási pont (maga a gyermekelem) és a paraméterül átadott elem között (a kiindulási elemet és a paraméterül adott őselemet nem tartalmazza a visszaadott lista!!!! )</p>
+    <pre>
+        őselemek szűrése:
+        $("span").parents("ul").css({"color": "red", "border": "2px solid red"});
+
+        parent until: (a span és a div közötti őselemekre fog vonatkozni a formázás)
+        $("span").parentsUntil("div").css({"color": "red", "border": "2px solid red"});
+    </pre>
+    <p><b>gyermek elemek:</b> children() - a kiválasztott elem összes <i>közvetlen</i> gyermekét adja vissza, find() - a kiválasztott elem leszármazott elemeit adja vissza, egészen a legmélyebb szintig</p>
+    <pre>
+        közvetlen gyermek elemek szűrése:
+        $("div").children("p.first").css({"color": "red", "border": "2px solid red"});
+
+        összes span utód elem:
+        $("div").find("span").css({"color": "red", "border": "2px solid red"});
+
+        összes utód elemet visszaadja:
+        $("div").find("*").css({"color": "red", "border": "2px solid red"});
+
+    </pre>
+
+    <p><b>testvér elemek:</b> siblings() - a kiválasztott elem <i>összes</i> testvérelemét adja vissza, next() - a kiválasztott elem következő testvérelemét adja vissza, nextAll() - a kiválasztott elem összes, a DOM-ban következő testvérelemét adja vissza, nextUntil(elem) - visszaadja az összes, a DOM-ban következő testvérelemet hivatkozó és a paraméterben megadott elem <i>között</i>, prev() - a kiválasztott elem előző testvérelemét adja vissza, prevAll() - a kiválasztott elem összes, a DOM-ban előzőleg helyet foglaló testvérelemét adja vissza, prevUntil(elem) - visszaadja az összes, a DOM-ban előzőleg helyet foglaló testvérelemet hivatkozó és a paraméterben megadott elem <i>között</i></p>
+    <pre>
+        prevUntil("") megegyezik a prevAll() -lal,
+        hasonlóank a nextUntil("") és a nextAll()
+    </pre>
+    <p><b>szűrés elemekre:</b> first() A megadott elemek első elemét adja vissza, last() A megadott elemek utolsó elemét adja vissza, eq() A megadott elemek közül egy elemet ad vissza, annak indexszáma alapján, filter() A metódusnak átadott feltétel alapján szelektálja az elemeket, not() Minden olyan elemet visszaad, amely nem felel meg a feltételeknek,  </p>
+    <pre>
+        pl.: 
+        $("p") visszadaja az összes p elemet,
+
+        $("p").first(); visszadja az összes p elem közül az elsőt,
+
+        $("p").eq(1); visszadja az összes p elem közül az 1-es indexüt,
+
+        $("p").filter(".intro"); visszadja az összes p elem közül az intro class-al rendelkezőket,
+
+        $("p").not(".intro"); visszadja az összes p elem közül a nem intro class-al rendelkezőket,
+    </pre>
+
+    <h2>ajax</h2>
+    <p><b>load()</b> A load() metódus adatokat tölt be a szerverről, és azokat a kiválasztott elembe helyezi.</p>
+    <pre>
+        pl.: 
+        $("button").click(function(){
+            $("#div1").load("demo_test.php");
+        });
+
+        a betöltött tartalomban található id="p1" elem tartalmát tölti be a div -be
+        $("#div1").load("demo_test.txt #p1");
+
+
+    </pre>
+    <p>load() callbackfunction-nal:</p>
+    <pre>
+        $("#div1").load("demo_test.txt", function(responseTxt, statusTxt, xhr){
+            if(statusTxt == "success")
+              alert("External content loaded successfully!");
+            if(statusTxt == "error")
+              alert("Error: " + xhr.status + ": " + xhr.statusText);
+        });
+
+        responseTxt - tartalmazza a válasz tartalmát, ha a hívás sikeres
+        statusTxt- jelzi a hívás eredményét
+        xhr- tartalmazza az XMLHttpRequest objektumot
+    </pre>
+
+    <p><b>get() és post():</b> adatokat kérünk a szervertől HTTP GET vagy POST metódussal</p>
+    <pre>
+        Pl.: 
+        GET
+        $.get("demo_test.php", function(data, status){
+            alert("Data: " + data + "\nStatus: " + status);
+          });
+
+        POST
+        const data_to_send = {
+            name: "Donald Duck",
+            city: "Duckburg"
+        };
+            
+        $.post("demo_test_post.php", data_to_send,
+          function(data, status){
+            alert("Data: " + data + "\nStatus: " + status);
+        });
+    </pre>
+    <br>
+    <button id="ajax1">Load</button>
+    <div></div>
+    <br>
+    <button id="ajax2">.get</button>
+    <div></div>
+    <br>
+    <button id="ajax3">.post</button>
+    <div></div>
+    <br>
+    <button id="ajax4">.post - json</button>
+    <div></div>
+    <br>
+    <p>From: content type image/jpeg</p>
+    <img src="content4.php" alt="x" width="300px">
+
+    <h2>pseudo classes</h2>
+    <p>.is(:pseudo-class)</p>
+    <pre>
+        pl.:
+        $("input[type='checkbox']").is(':checked') // true vagy false -t ad vissza
+        $("input[type='checkbox']").is(':visible')
+    </pre>
+    <!-- pl.: <input type="checkbox" checked style="display: none;"> -->
+    <input type="checkbox" checked>
+
+    <h2>input - oninput attr</h2>
+    <input type="text" oninput="console.log(this.value)">
+
+    
+    <script>
+        $('#test1').click(function() {
+            $('.test').toggle()
+        })
+        $('#test2').change(function(){
+            $(this).next().text($(this).val())
+        })
+        $('#test2').blur(function(){
+            $(this).css({
+                border: '1px solid black',
+                background: 'none',
+                color: 'inherit'
+            })
+        })
+        $('#test2').focus(function(){
+            $(this).css({
+                background: 'purple',
+                color: 'white'
+            })
+        })
+        $('#test3').css("color", "red")
+        $('#test3').next().click(function() {
+            $(this).prev().text("it is changed")
+            $("[type='text']").css("border", "3px solid red")
+            $("div#test3").css("border", "3px solid blue")
+        })
+        $('.test').on({
+            click: function() {
+                $(this).css("background", "yellow")
+            },
+            mouseenter: function() {
+                $(this).css("border", "2px solid blue")
+            },
+            mouseleave: function() {
+                $(this).css("background", "green")
+            } 
+        })
+        $(document).ready(function(){
+            $('#test1').prev().text('the document is ready')
+        })
+
+        $(window).resize(function(){
+            $('body').css("border", "1px solid blue")
+        })
+
+        $('#test4').scroll(function(){
+            $(this).css("background", "yellow")
+        })
+
+        $("#test5").click(function() {
+            $(this).prev().toggle(function() {
+                $(this).next().css("background", "red")
+            })
+        })
+
+        $("#test6").click(function() {
+            $(this).prev().fadeToggle("slow", "linear", function() {
+                $(this).next().css("background", "red")
+            })
+        })
+
+        $("#test7").click(function() {
+            $(this).prev().prev().fadeTo(3000, 0.5,  "swing", function() {
+                $(this).next().next().css("background", "red")
+            })
+        })
+
+        $("#slide").click(function() {
+            $(this).slideUp(1500);
+        })
+
+        $("#animate").click(function() {
+            $(this).animate({
+                left: '500px',
+                bottom: '+=200px',
+                opacity: '0.6',
+                width: '500px',
+                // width: 'toggle'
+            }, 'slow');
+
+            $(this).animate({
+                left: '-20px',
+                bottom: '-=10px',
+                opacity: '1',
+                width: '100px',
+                height: '100px'
+            }, 3000);
+        })
+
+        $('#animateBtn').click(function() {
+            $("#animate").stop()
+        })
+
+        $('#ajax1').click(function() {
+            $(this).next().load('content.php #d1')
+        })
+
+        $('#ajax2').click(function() {
+            $.get('content.php', function(response, statusText, xhr) {
+                $('#ajax2').next().html(response)
+            })
+        })
+
+        $('#ajax3').click(function() {
+            const dataToSend = {
+                name: "xy",
+                age: "007"
+            }
+            $.post('content2.php', dataToSend, function(response, statusText, xhr) {
+                JSON.parse(response).forEach(e => {
+                    console.log(e.name)
+                });
+            })
+        })
+
+        $('#ajax4').click(function() {
+            const dataToSend = {
+                name: "xy",
+                age: "007"
+            }
+            $.post('content3.php', dataToSend, function(response, statusText, xhr) {
+                response.forEach(e => {
+                    console.log(e.email)
+                });
+            })
+        })
+
+        console.log($("input[type='checkbox']").is(':checked'))
+        console.log($("input[type='checkbox']").is(':visible'))
+        $("input[type='checkbox']").change(function() {
+            setTimeout(()=>alert($("input[type='checkbox']").is(':checked') ? "kipipálva" : "nincs kipipálva"), 500)
+        })
+
+    </script>
+</body>
+</html>
